@@ -1,4 +1,4 @@
-import 'package:aplikasi_5sia6_mobile3/view/home_view.dart';
+import 'package:aplikasi_5sia6_mobile3/view/login_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,7 +11,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: HomeView(),
+      home: LoginView(),
     );
   }
 }
