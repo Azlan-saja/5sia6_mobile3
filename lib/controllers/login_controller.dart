@@ -10,10 +10,14 @@ class LoginController {
     isVisible = !isVisible;
   }
 
-  String? cekValidasi(String? value) {
+  String? cekValidasi(String? value, {required String label}) {
     if (value!.isEmpty) {
-      return 'Title wajib diisi';
+      return '$label wajib diisi';
     }
     return null;
+  }
+
+  prosesLogin() {
+    if (formKey.currentState!.validate()) {}
   }
 }

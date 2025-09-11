@@ -42,6 +42,8 @@ class _LoginViewState extends State<LoginView> {
                   // 3. Input Username,
                   SizedBox(height: 12),
                   TextFormField(
+                    validator: (value) =>
+                        loginController.cekValidasi(value, label: 'Username'),
                     controller: loginController.usernameController,
                     decoration: InputDecoration(
                       hintText: "Username",
@@ -55,6 +57,8 @@ class _LoginViewState extends State<LoginView> {
                   // 4. Input Password,
                   SizedBox(height: 12),
                   TextFormField(
+                    validator: (value) =>
+                        loginController.cekValidasi(value, label: 'Password'),
                     controller: loginController.passwordController,
                     obscureText: !loginController.isVisible,
                     decoration: InputDecoration(
@@ -80,7 +84,9 @@ class _LoginViewState extends State<LoginView> {
                   // 5. Tombol Login,
                   SizedBox(height: 12),
                   FilledButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      loginController.prosesLogin();
+                    },
                     label: Text("Login"),
                     icon: Icon(Icons.login),
                   ),
