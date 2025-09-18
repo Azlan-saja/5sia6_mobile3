@@ -85,7 +85,7 @@ class _LoginViewState extends State<LoginView> {
                   SizedBox(height: 12),
                   FilledButton.icon(
                     onPressed: () {
-                      loginController.prosesLogin();
+                      loginController.prosesLogin(context);
                     },
                     label: Text("Login"),
                     icon: Icon(Icons.login),

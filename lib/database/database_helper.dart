@@ -1,3 +1,4 @@
+import 'package:aplikasi_5sia6_mobile3/models/user_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -57,5 +58,17 @@ class DatabaseHelper {
     if (_database != null) return _database!;
     _database = await initDB();
     return _database!;
+  }
+
+  Future<bool> login(UserModel user) async {
+    final db = await database;
+
+    final result = await db.query(
+      'users',
+      where: 'userName = ? AND userPassword = ?',
+      whereArgs: [user.userName, user.userPassword],
+    );
+
+    return result.isNotEmpty;
   }
 }
