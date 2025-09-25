@@ -1,3 +1,4 @@
+import 'package:aplikasi_5sia6_mobile3/models/note_model.dart';
 import 'package:aplikasi_5sia6_mobile3/models/user_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -70,5 +71,18 @@ class DatabaseHelper {
     );
 
     return result.isNotEmpty;
+  }
+
+  Future<int> createNote(NoteModel note) async {
+    final Database db = await database;
+
+    return db.insert('notes', note.toMap());
+  }
+
+  Future<List<NoteModel>> getNotes() async {
+    final db = await database;
+    final result = await db.query('notes');
+
+    return result.map((e) => NoteModel.fromMap(e)).toList();
   }
 }

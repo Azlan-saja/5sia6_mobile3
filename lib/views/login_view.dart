@@ -45,6 +45,7 @@ class _LoginViewState extends State<LoginView> {
                     validator: (value) =>
                         loginController.cekValidasi(value, label: 'Username'),
                     controller: loginController.usernameController,
+                    textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       hintText: "Username",
                       prefixIcon: Icon(Icons.person),
@@ -61,6 +62,9 @@ class _LoginViewState extends State<LoginView> {
                         loginController.cekValidasi(value, label: 'Password'),
                     controller: loginController.passwordController,
                     obscureText: !loginController.isVisible,
+                    textInputAction: TextInputAction.done,
+                    onFieldSubmitted: (_) =>
+                        loginController.prosesLogin(context),
                     decoration: InputDecoration(
                       hintText: "Password",
                       prefixIcon: Icon(Icons.key),
