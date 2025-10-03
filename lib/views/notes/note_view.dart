@@ -2,6 +2,7 @@ import 'package:aplikasi_5sia6_mobile3/controllers/note_controller.dart';
 import 'package:aplikasi_5sia6_mobile3/models/note_model.dart';
 import 'package:aplikasi_5sia6_mobile3/views/login_view.dart';
 import 'package:aplikasi_5sia6_mobile3/views/notes/create_note_view.dart';
+import 'package:aplikasi_5sia6_mobile3/views/notes/update_note_view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -56,6 +57,7 @@ class _NoteViewState extends State<NoteView> {
                 contentPadding: EdgeInsets.only(top: 13),
               ),
             ),
+            SizedBox(height: 10),
             Expanded(
               child: FutureBuilder<List<NoteModel>>(
                 future: noteController.notes,
@@ -73,38 +75,41 @@ class _NoteViewState extends State<NoteView> {
                       itemCount: items.length,
                       itemBuilder: (context, index) {
                         final note = items[index];
-                        return AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                          margin: const EdgeInsets.symmetric(vertical: 6),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6),
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          elevation: 4,
+                          shadowColor: Colors.black.withAlpha(123),
+                          child: ListTile(
+                            splashColor: Colors.teal.shade900,
+                            tileColor: Colors.teal.withAlpha(30),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 6),
+                            title: Text(
+                              note.noteTitle,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.teal.shade900,
+                              ),
                             ),
-                            elevation: 4,
-                            shadowColor: Colors.black.withAlpha(123),
-                            child: ListTile(
-                              tileColor: Colors.teal.withAlpha(30),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 6),
-                              title: Text(
-                                note.noteTitle,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: Colors.teal.shade900,
+                            subtitle: Text(
+                              '${note.noteContent}\n\n${DateFormat("yMMMd").format(DateTime.parse(note.createdAt))}',
+                              style: TextStyle(
+                                  color: Colors.teal.shade600, fontSize: 13),
+                            ),
+                            onTap: () {
+                              // Navigasi ke halaman lihat/update note
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => UpdateNoteView(
+                                    note: note,
+                                  ),
                                 ),
-                              ),
-                              subtitle: Text(
-                                DateFormat("yMMMd")
-                                    .format(DateTime.parse(note.createdAt)),
-                                style: TextStyle(
-                                    color: Colors.teal.shade600, fontSize: 13),
-                              ),
-                              onTap: () {
-                                // Navigasi ke halaman lihat/update note
-                              },
-                            ),
+                              );
+                            },
                           ),
                         );
                       },
