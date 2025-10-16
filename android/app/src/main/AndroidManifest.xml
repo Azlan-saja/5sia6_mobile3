@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="aplikasi_5sia6_mobile3"
+        android:label="5SIA6 Notes"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
