@@ -48,6 +48,11 @@ class _NoteViewState extends State<NoteView> {
         child: Column(
           children: [
             TextFormField(
+              controller: noteController.searchController,
+              onChanged: (value) async {
+                await noteController.prosesSearch();
+                setState(() {});
+              },
               decoration: InputDecoration(
                 hintText: "Search Note",
                 prefixIcon: Icon(Icons.search),
@@ -68,7 +73,7 @@ class _NoteViewState extends State<NoteView> {
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(child: Text("No Data"));
+                    return const Center(child: Text("Note Kosong!"));
                   } else {
                     final items = snapshot.data!;
                     return ListView.builder(
@@ -82,6 +87,45 @@ class _NoteViewState extends State<NoteView> {
                           elevation: 4,
                           shadowColor: Colors.black.withAlpha(123),
                           child: ListTile(
+                            trailing: IconButton(
+                              onPressed: () {
+                                // Dialog Yes No
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Text('Hapus,'),
+                                    content: Text('Yakin hapus data ini?'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Batal'),
+                                      ),
+                                      FilledButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              WidgetStatePropertyAll(
+                                                  Colors.red),
+                                        ),
+                                        onPressed: () async {
+                                          await noteController.prosesDeleteData(
+                                            context,
+                                            noteId: note.noteId!,
+                                          );
+                                          setState(() {});
+                                        },
+                                        child: Text('Iya, hapus!'),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ),
+                            ),
                             splashColor: Colors.teal.shade900,
                             tileColor: Colors.teal.withAlpha(30),
                             contentPadding: const EdgeInsets.symmetric(

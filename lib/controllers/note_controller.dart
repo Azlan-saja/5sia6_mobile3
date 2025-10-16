@@ -12,6 +12,8 @@ class NoteController {
   late DatabaseHelper handler;
   late Future<List<NoteModel>> notes;
 
+  final searchController = TextEditingController();
+
   String? cekValidasi(String? value, {required String label}) {
     if (value!.isEmpty) {
       return '$label wajib diisi';
@@ -71,14 +73,14 @@ class NoteController {
     }
   }
 
-  Future prosesUpdateData(BuildContext context, int nodeId) async {
+  Future prosesUpdateData(BuildContext context, int noteId) async {
     if (!formKey.currentState!.validate()) return;
 
     try {
       int result = await db.updateNote(
         titleController.text,
         contentController.text,
-        nodeId,
+        noteId,
       );
 
       if (!context.mounted) return;
@@ -124,5 +126,50 @@ class NoteController {
   init() {
     handler = DatabaseHelper();
     notes = handler.getNotes();
+  }
+
+  Future prosesDeleteData(BuildContext context, {required int noteId}) async {
+    Navigator.pop(context);
+    try {
+      int result = await handler.deleteNote(noteId);
+      if (!context.mounted) return;
+      if (result > 0) {
+        await init();
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Note delete successfully!'),
+            backgroundColor: Colors.teal[400],
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Failed to delete note. Please try again.'),
+            backgroundColor: Colors.redAccent,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } catch (e) {
+      if (!context.mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('An error occurred while delete the note.'),
+          backgroundColor: Colors.redAccent,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
+  prosesSearch() {
+    if (searchController.text.isNotEmpty) {
+      notes = db.searchNotes(searchController.text);
+    } else {
+      init();
+    }
   }
 }

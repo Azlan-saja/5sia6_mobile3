@@ -1,4 +1,5 @@
 import 'package:aplikasi_5sia6_mobile3/views/login_view.dart';
+import 'package:aplikasi_5sia6_mobile3/views/notes/note_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +17,8 @@ class MainApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(
         seedColor: Colors.teal,
       )),
-      home: LoginView(),
+      // home: LoginView(),
+      home: NoteView(),
     );
   }
 }
